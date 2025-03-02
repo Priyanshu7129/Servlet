@@ -20,12 +20,14 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        // Password validation: Allow login if password is 'password'
-        if ("password".equals(password)) {
-            response.sendRedirect("loginSuccess.jsp");
-        } else {
-            response.getWriter().println("Invalid credentials");
+
+        if (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=])(?!.*[@#$%^&+=].*[@#$%^&+=]).{8,}$")) {
+            response.getWriter().println("Invalid password! It must have at least 8 characters, 1 uppercase letter, 1 number, and exactly 1 special character.");
+            return;
         }
+
+        // If both username and password are valid, login is successful
+        response.sendRedirect("loginSuccess.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
